@@ -22,6 +22,13 @@ By the end of this homework, a student pair should be able to:
 
 ```text
 rag-week-6-homework-starter/
+  .codex/skills/student-weekly-report/
+    student-weekly-report/
+      INSTALL.md
+      SKILL.md
+      agents/
+      assets/
+      references/
   src/
     corpus.py
     chunking.py
@@ -39,7 +46,8 @@ rag-week-6-homework-starter/
   scripts/
     run_tests.sh
   evidence.md
-  weekly-report.md
+  weekly-report-SaraTrnjakov.md
+  weekly-report-GoranSuvacarev.md
   Week 6 RAG Homework Starter.pdf
   requirements.txt
 ```

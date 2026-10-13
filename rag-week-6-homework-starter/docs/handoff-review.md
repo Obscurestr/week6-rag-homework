@@ -22,6 +22,5 @@ During Goran's handoff review, Codex ran Python 3.12.10 on Windows with a fresh 
 
 ## Weekly report alignment
 
-- Sara's `weekly-report.md` remains a draft in her voice. Its `12 passed` statement records her earlier reported run; Codex observed `17 passed` during the later review after adding regression tests. Git history alone does not verify the earlier run or individual authorship.
-- The draft now records Sara as driver/developer and Goran as observer/reviewer and demo lead. Sara should confirm her own personal account before the draft is finalized.
-- Goran's report will be prepared later from his own account. It should distinguish observation and review of Sara's original work from his subsequent handoff check and the changes made with Codex, and use the current evidence and test result when describing this review.
+- Sara's `weekly-report-SaraTrnjakov.md` records her earlier reported `12 passed` run and adds a dated note about the later review. Codex observed `17 passed` after adding regression tests. Git history alone does not verify her earlier run or individual authorship.
+- Sara confirmed the revised `weekly-report-SaraTrnjakov.md`, including its dated note. Both weekly reports are final. Goran's `weekly-report-GoranSuvacarev.md` distinguishes his review and Codex-assisted fixes from Sara's original implementation.

@@ -1,4 +1,4 @@
-# Nedeljni izveštaj — NACRT
+# Nedeljni izveštaj
 
 ## 1. Osnovne informacije
 
@@ -10,7 +10,7 @@
 | Nedelja | Week 6 — RAG homework |
 | Par / tim | Tim Quattro: Sara je driver/developer; Goran je observer/reviewer, uradio je naknadnu proveru rada i biće demo lead jer Sara neće prisustvovati predavanju. |
 | Moj konkretan doprinos / uloga | Bila sam driver. Radila sam na svih pet ishoda: chunking poređenju, top-k retrieval-u, citatima, refusal ponašanju i dokumentovanju dokaza. |
-| Datum predaje | 2026-10-12 |
+| Datum predaje | 2026-10-13 |
 | Reference na rad i dokaze | `evidence.md` sa poređenjem chunking konfiguracija, rangiranim rezultatima, podržanim primerom sa citatima i nepodržanim primerom sa refusal izlazom; ručno pokrenut test paket sa rezultatom `12 passed`. |
 
 ## 2. Moj status
@@ -30,6 +30,8 @@ Za drugi ishod radila sam na top-k retrieval-u u `src/retrieval.py`. Rezultati s
 Za četvrti ishod obuhvatila sam refusal ponašanje. Kada pitanje nema dovoljno podrške u lokalnom korpusu, sistem vraća jasnu poruku da nema dovoljno grounded dokaza, bez izmišljanja odgovora i bez citata. Za peti ishod pripremila sam `evidence.md`, u kojem se nalaze chunking poređenje, top-k izlazi, podržan primer sa citatom i nepodržan primer sa refusal izlazom.
 
 Koristila sam Codex, OpenAI AI asistenta, za pomoć pri implementaciji. Rezultat sam proverila tako što sam ručno pokrenula testove; svih 12 testova je prošlo. Naučila sam koncept RAG-a i kako se praktično implementiraju chunking, retrieval, odgovor sa citatima i odbijanje pitanja kada nema dovoljno dokaza. Pomoć tutora mi trenutno nije potrebna.
+
+**Naknadna provera (2026-10-13):** Posle moje prvobitne implementacije, Goran je kao reviewer uz Codex proverio rad i ispravio rubni slučaj gubitka teksta pri chunking-u i odgovor bez dokaza na upit za godinu. Codex je zatim ponovo pokrenuo testove; svih 17 je prošlo. Moj ranije navedeni rezultat `12 passed` odnosi se na proveru pre tih izmena. Aktuelni demo koristi leksičko poklapanje, koje može da odbije ispravno preformulisana pitanja i ne garantuje podršku za svaki mogući odgovor.
 
 ## 4. Sledeći korak
 
