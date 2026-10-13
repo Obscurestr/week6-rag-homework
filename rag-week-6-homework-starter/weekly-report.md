@@ -8,7 +8,7 @@
 | Adresa e-pošte | saratrnjakov6@gmail.com |
 | Discord korisničko ime | saratrnjakov |
 | Nedelja | Week 6 — RAG homework |
-| Par / tim | Tim Quattro, rad u paru sa Goranom |
+| Par / tim | Tim Quattro: Sara je driver/developer; Goran je observer/reviewer, uradio je naknadnu proveru rada i biće demo lead jer Sara neće prisustvovati predavanju. |
 | Moj konkretan doprinos / uloga | Bila sam driver. Radila sam na svih pet ishoda: chunking poređenju, top-k retrieval-u, citatima, refusal ponašanju i dokumentovanju dokaza. |
 | Datum predaje | 2026-10-12 |
 | Reference na rad i dokaze | `evidence.md` sa poređenjem chunking konfiguracija, rangiranim rezultatima, podržanim primerom sa citatima i nepodržanim primerom sa refusal izlazom; ručno pokrenut test paket sa rezultatom `12 passed`. |

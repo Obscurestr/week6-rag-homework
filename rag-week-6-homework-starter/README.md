@@ -30,41 +30,64 @@ rag-week-6-homework-starter/
     cli.py
   tests/
     test_chunking.py
+    test_corpus.py
     test_retrieval.py
     test_rag.py
   docs/
     homework-checklist.md
+    handoff-review.md
   scripts/
     run_tests.sh
+  evidence.md
+  weekly-report.md
+  Week 6 RAG Homework Starter.pdf
   requirements.txt
 ```
 
 ## Setup
 
+Use Python 3.12. From this directory on macOS or Linux:
+
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
 ```
+
+On Windows PowerShell:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+Create the environment locally; it is not part of the repository.
 
 ## Run tests
 
 ```bash
-./scripts/run_tests.sh
+.venv/bin/python -m pytest -q
 ```
+
+On Windows PowerShell, run `.\.venv\Scripts\python.exe -m pytest -q`.
 
 ## Run demo CLI
 
+Use the environment's Python from the project directory:
+
 ```bash
-python -m src.cli --question "What is retrieval augmented generation?"
-python -m src.cli --question "Who won the world cup in 1958?"
-python -m src.cli --corpus-profile training-rag --question "Why are citations important in RAG?"
+.venv/bin/python -m src.cli --question "What is retrieval augmented generation?"
+.venv/bin/python -m src.cli --question "Who won the world cup in 1958?"
+.venv/bin/python -m src.cli --corpus-profile training-rag --question "Why do citations improve transparency and trust?"
 ```
+
+On Windows PowerShell, replace `.venv/bin/python` with `.\.venv\Scripts\python.exe`.
 
 ## Corpus profiles
 
 - `default`: compact baseline corpus for Week 6 fundamentals.
 - `training-rag`: profile mirroring examples with focus on citations, references, and LLM-as-a-judge framing.
+
+The answer builder selects a cited sentence only when that sentence contains every meaningful query term. It refuses questions without such a sentence. This deliberately conservative lexical rule can refuse valid paraphrases, and matching words alone cannot prove that a sentence fully answers every possible question.
 
 ## Homework tasks for students
 

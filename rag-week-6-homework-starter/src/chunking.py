@@ -52,7 +52,9 @@ def split_text_with_overlap(text: str, chunk_size: int = 140, overlap: int = 30)
 
         next_start = end - overlap
         if next_start <= start:
-            next_start = start + step
+            # A word boundary can make this window shorter than the requested
+            # overlap. Do not jump past its end and lose unread characters.
+            next_start = min(end, start + step)
 
         # Start the following chunk at a word boundary when overlap lands in
         # the middle of a token.  This can make the effective overlap slightly
@@ -60,15 +62,12 @@ def split_text_with_overlap(text: str, chunk_size: int = 140, overlap: int = 30)
         if next_start < len(cleaned) and cleaned[next_start] == " ":
             next_start += 1
         elif next_start > 0 and cleaned[next_start - 1] != " ":
-            # Preserve the word that contains the overlap boundary.  If this
-            # is one long token, fall forward so the loop still progresses.
+            # Preserve the word that contains the overlap boundary when one
+            # is available. Otherwise keep the hard split: moving to the next
+            # space would discard the rest of a long token.
             previous_space = cleaned.rfind(" ", start + 1, next_start)
             if previous_space != -1:
                 next_start = previous_space + 1
-            else:
-                next_space = cleaned.find(" ", next_start)
-                if next_space != -1:
-                    next_start = next_space + 1
 
         start = next_start
 

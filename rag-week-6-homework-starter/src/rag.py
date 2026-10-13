@@ -1,12 +1,13 @@
 from dataclasses import dataclass
+import re
 
 from .chunking import Chunk
-from .retrieval import retrieve_top_k
+from .retrieval import lexical_score, query_coverage, retrieve_top_k
 
 
 REFUSAL_MESSAGE = "I do not have enough grounded evidence in the provided corpus to answer that question."
 MIN_GROUNDING_SCORE = 0.25
-MIN_QUERY_COVERAGE = 0.60
+MIN_QUERY_COVERAGE = 1.0
 
 
 @dataclass(frozen=True)
@@ -18,35 +19,22 @@ class RagAnswer:
 
 def build_grounded_answer(question: str, chunks: list[Chunk], top_k: int = 2) -> RagAnswer:
     results = retrieve_top_k(question, chunks, k=top_k)
-    if not results:
+    # Check a sentence rather than an entire chunk. Terms scattered across
+    # unrelated sentences cannot support a single extractive answer.
+    candidates: list[tuple[float, int, str, str]] = []
+    for rank, item in enumerate(results):
+        for sentence in re.split(r"(?<=[.!?])\s+", item.chunk.text):
+            sentence = sentence.strip()
+            if not sentence:
+                continue
+            coverage = query_coverage(question, sentence)
+            score = lexical_score(question, sentence)
+            if coverage >= MIN_QUERY_COVERAGE and score >= MIN_GROUNDING_SCORE:
+                candidates.append((score, rank, item.chunk.chunk_id, sentence))
+
+    if not candidates:
         return RagAnswer(answer=REFUSAL_MESSAGE, citations=[], refused=True)
 
-    best = results[0]
-    # One incidental keyword is not enough evidence for a claim.  Require a
-    # reasonably focused top result that covers most meaningful question terms.
-    if best.score < MIN_GROUNDING_SCORE or best.query_coverage < MIN_QUERY_COVERAGE:
-        return RagAnswer(answer=REFUSAL_MESSAGE, citations=[], refused=True)
-
-    # Cite only chunks that independently meet the grounding bar.  Lower-ranked
-    # lexical matches remain visible in CLI retrieval evidence, but do not get
-    # presented as support for the answer.
-    grounded_results = [
-        item
-        for item in results
-        if item.score >= MIN_GROUNDING_SCORE
-        and item.query_coverage >= MIN_QUERY_COVERAGE
-    ]
-
-    supporting_points = []
-    citations = []
-    for item in grounded_results:
-        citations.append(item.chunk.chunk_id)
-        supporting_points.append(f"[{item.chunk.chunk_id}] {item.chunk.text}")
-
-    answer = (
-        "Grounded response based on retrieved context:\n"
-        + "\n".join(supporting_points)
-        + "\n\nCitations: "
-        + ", ".join(f"[{citation}]" for citation in citations)
-    )
-    return RagAnswer(answer=answer, citations=citations, refused=False)
+    _, _, citation, sentence = min(candidates, key=lambda item: (-item[0], item[1], item[2]))
+    answer = f"{sentence} [{citation}]\n\nCitations: [{citation}]"
+    return RagAnswer(answer=answer, citations=[citation], refused=False)
